@@ -13,12 +13,16 @@ class MyButton extends StatefulWidget {
 
 class ButtonState extends State<MyButton> {
   static List<int> _colors = [];
+  static List<int> _textColors = [];
   static int _iterator = 0;
 
   ButtonState() {
-    for (int i = 0; i < 5 + MyApp.text.length + 5; i++) {
-      if (i <= 5) _colors.add(0xFFFFFFFF);
-      else _colors.add(0xFF000000);
+    for (int i = 0; i <= (pow(MyApp.width, 2)/2).round(); i++) {
+      _colors.add(0xFFFFFFFF);
+    }
+
+    for (int i = 0; i < MyApp.text.length + 1; i++) {
+       _textColors.add(0xFF000000);
     }
   }
 
@@ -34,7 +38,7 @@ class ButtonState extends State<MyButton> {
   }
 
   static int randColor() {
-    return Random().nextInt(0xFF000000) + 0xFFFFFFFF;
+    return Random().nextInt(0xFFFFFF) + 0xFF000000;
   }
 
   void _changeColor() {
@@ -44,14 +48,18 @@ class ButtonState extends State<MyButton> {
       for (int i = _colors.length - 1; i >= 1; i--) {
         _colors[i] = _colors[i - 1];
       }
+      for (int i = _textColors.length - 1; i >= 1; i--) {
+        _textColors[i] = _textColors[i - 1];
+      }
     }
 
     setState(() {
       _colors[0] = randColor();
+      _textColors[0] = randColor();
     });
 
     if (_iterator <= MyApp.startMagic) {
-      for (int i = 1; i < _colors.length; i++) {
+      for (int i = 1; i < MyApp.startMagic; i++) {
         _colors[i] = _colors[0];
       }
     }
@@ -60,4 +68,6 @@ class ButtonState extends State<MyButton> {
   static int get iterator => _iterator;
 
   static List<int> get colors => _colors;
+
+  static List<int> get textColors => _textColors;
 }
